@@ -1,11 +1,11 @@
-TARGET = v_repExtExternalRenderer
+TARGET = simExtExternalRenderer
 TEMPLATE = lib
 DEFINES -= UNICODE
 CONFIG += shared
 QT     += widgets opengl printsupport #printsupport required from MacOS, otherwise crashes strangely ('This CONFIG += shared
 
 win32 {
-    DEFINES += WIN_VREP
+    DEFINES += WIN_SIM
     greaterThan(QT_MAJOR_VERSION,4) {
         greaterThan(QT_MINOR_VERSION,4) {
             LIBS += -lopengl32
@@ -15,11 +15,11 @@ win32 {
 
 macx {
     INCLUDEPATH += "/usr/local/include"
-    DEFINES += MAC_VREP
+    DEFINES += MAC_SIM
 }
 
 unix:!macx {
-    DEFINES += LIN_VREP
+    DEFINES += LIN_SIM
 }
 
 
@@ -48,11 +48,11 @@ unix:!macx {
 }
 
 INCLUDEPATH += "../include"
-INCLUDEPATH += "../v_repMath"
+INCLUDEPATH += "../simMath"
 
 SOURCES += \
-    ../common/v_repLib.cpp \
-    v_repExtExternalRenderer.cpp \
+    ../common/simLib.cpp \
+    simExtExternalRenderer.cpp \
     openglWidget.cpp \
     frameBufferObject.cpp \
     offscreenGlContext.cpp \
@@ -62,18 +62,18 @@ SOURCES += \
     ocMeshContainer.cpp \
     ocTexture.cpp \
     ocTextureContainer.cpp \
-    ../v_repMath/MyMath.cpp \
-    ../v_repMath/3Vector.cpp \
-    ../v_repMath/4Vector.cpp \
-    ../v_repMath/6Vector.cpp \
-    ../v_repMath/7Vector.cpp \
-    ../v_repMath/3X3Matrix.cpp \
-    ../v_repMath/4X4Matrix.cpp \
-    ../v_repMath/6X6Matrix.cpp \
+    ../simMath/MyMath.cpp \
+    ../simMath/3Vector.cpp \
+    ../simMath/4Vector.cpp \
+    ../simMath/6Vector.cpp \
+    ../simMath/7Vector.cpp \
+    ../simMath/3X3Matrix.cpp \
+    ../simMath/4X4Matrix.cpp \
+    ../simMath/6X6Matrix.cpp \
 
 HEADERS +=\
-    ../include/v_repLib.h \
-    v_repExtExternalRenderer.h \
+    ../include/simLib.h \
+    simExtExternalRenderer.h \
     openglWidget.h \
     frameBufferObject.h \
     offscreenGlContext.h \
@@ -83,15 +83,15 @@ HEADERS +=\
     ocMeshContainer.h \
     ocTexture.h \
     ocTextureContainer.h \
-    ../v_repMath/MyMath.h \
-    ../v_repMath/mathDefines.h \
-    ../v_repMath/3Vector.h \
-    ../v_repMath/4Vector.h \
-    ../v_repMath/6Vector.h \
-    ../v_repMath/7Vector.h \
-    ../v_repMath/3X3Matrix.h \
-    ../v_repMath/4X4Matrix.h \
-    ../v_repMath/6X6Matrix.h \
+    ../simMath/MyMath.h \
+    ../simMath/mathDefines.h \
+    ../simMath/3Vector.h \
+    ../simMath/4Vector.h \
+    ../simMath/6Vector.h \
+    ../simMath/7Vector.h \
+    ../simMath/3X3Matrix.h \
+    ../simMath/4X4Matrix.h \
+    ../simMath/6X6Matrix.h \
 
 unix:!symbian {
     maemo5 {
