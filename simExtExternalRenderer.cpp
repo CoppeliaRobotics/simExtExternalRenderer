@@ -33,6 +33,19 @@ std::vector<COpenglOffscreen*> oglOffscreens;
 COcMeshContainer* meshContainer=NULL;
 COcTextureContainer* textureContainer=NULL;
 
+bool canOutputMsg(int msgType)
+{
+    int plugin_verbosity = sim_verbosity_default;
+    simGetModuleInfo("ExternalRenderer",sim_moduleinfo_verbosity,nullptr,&plugin_verbosity);
+    return(plugin_verbosity>=msgType);
+}
+
+void outputMsg(int msgType,const char* msg)
+{
+    if (canOutputMsg(msgType))
+        printf("%s\n",msg);
+}
+
 void simulationAboutToStart()
 {
     _simulationRunning=true;
@@ -105,12 +118,12 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
      simLib=loadSimLibrary(temp.c_str());
      if (simLib==NULL)
      {
-         std::cout << "Error, could not find or correctly load the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.\n";
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: could not find or correctly load the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
      if (getSimProcAddresses(simLib)==0)
      {
-         std::cout << "Error, could not find all required functions in the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.\n";
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: could not find all required functions in the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
          unloadSimLibrary(simLib);
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
@@ -122,7 +135,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
      simGetIntegerParameter(sim_intparam_program_version,&simVer);
      if (simVer<30201) // if CoppeliaSim version is smaller than 3.02.01
      {
-         std::cout << "Sorry, your CoppeliaSim copy is somewhat old. Cannot start 'ExternalRenderer' plugin.\n";
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: sorry, your CoppeliaSim copy is somewhat old. Cannot start 'ExternalRenderer' plugin.");
          unloadSimLibrary(simLib);
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
