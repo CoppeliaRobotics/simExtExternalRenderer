@@ -118,12 +118,12 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
      simLib=loadSimLibrary(temp.c_str());
      if (simLib==NULL)
      {
-         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: could not find or correctly load the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer: error: could not find or correctly load the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
      if (getSimProcAddresses(simLib)==0)
      {
-         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: could not find all required functions in the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer: error: could not find all required functions in the CoppeliaSim library. Cannot start 'ExternalRenderer' plugin.");
          unloadSimLibrary(simLib);
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
@@ -135,7 +135,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
      simGetIntegerParameter(sim_intparam_program_version,&simVer);
      if (simVer<30201) // if CoppeliaSim version is smaller than 3.02.01
      {
-         outputMsg(sim_verbosity_errors,"simExtExternalRenderer plugin error: sorry, your CoppeliaSim copy is somewhat old. Cannot start 'ExternalRenderer' plugin.");
+         outputMsg(sim_verbosity_errors,"simExtExternalRenderer: error: sorry, your CoppeliaSim copy is somewhat old. Cannot start 'ExternalRenderer' plugin.");
          unloadSimLibrary(simLib);
          return(0); // Means error, CoppeliaSim will unload this plugin
      }
