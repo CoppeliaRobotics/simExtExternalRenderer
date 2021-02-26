@@ -17,6 +17,10 @@ public:
      void endTexture();
 
 protected:
+     static unsigned int _genTexture();
+     static void _delTexture(unsigned int t);
+     static std::vector<unsigned int> _allTextureNames;
+     static std::vector<bool> _allTextureNamesAv;
 
      std::vector<unsigned char> _textureBuff;
      int _textureSizeX;

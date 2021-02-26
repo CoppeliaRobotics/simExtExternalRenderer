@@ -1,7 +1,66 @@
+#include "simLib.h"
 #include "ocTexture.h"
 #include <qopengl.h>
 
 #define TEXTURE_INIT_USED_COUNT 10
+
+std::vector<unsigned int> COcTexture::_allTextureNames;
+std::vector<bool> COcTexture::_allTextureNamesAv;
+
+unsigned int COcTexture::_genTexture()
+{
+    unsigned int retVal=0;
+    int bugFix1;
+    simGetInt32Parameter(sim_intparam_bugfix1,&bugFix1);
+    if (bugFix1>0)
+    {
+        static bool first=true;
+        if (first)
+        {
+            first=false;
+            _allTextureNames.resize(bugFix1);
+            _allTextureNamesAv.resize(bugFix1,true);
+            glGenTextures(bugFix1,&_allTextureNames[0]);
+        }
+        for (size_t i=0;i<bugFix1;i++)
+        {
+            if (_allTextureNamesAv[i])
+            {
+                _allTextureNamesAv[i]=false;
+                retVal=_allTextureNames[i];
+                break;
+            }
+        }
+    }
+    else
+    {
+        if (bugFix1==-1)
+            glGenTextures(1,&retVal);
+    }
+    return(retVal);
+}
+
+void COcTexture::_delTexture(unsigned int t)
+{
+    int bugFix1;
+    simGetInt32Parameter(sim_intparam_bugfix1,&bugFix1);
+    if (bugFix1>0)
+    {
+        for (size_t i=0;i<bugFix1;i++)
+        {
+            if (_allTextureNames[i]==t)
+            {
+                _allTextureNamesAv[i]=true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        if (bugFix1==-1)
+            glDeleteTextures(1,&t);
+    }
+}
 
 COcTexture::COcTexture(int id,const unsigned char* textureBuff,int textureSizeX,int textureSizeY)
 {
@@ -10,13 +69,13 @@ COcTexture::COcTexture(int id,const unsigned char* textureBuff,int textureSizeX,
     _textureSizeY=textureSizeY;
     for (int i=0;i<4*textureSizeX*textureSizeY;i++)
         _textureBuff.push_back(textureBuff[i]);
-    glGenTextures(1,&_textureName);
+    _textureName=_genTexture();
     _usedCount=TEXTURE_INIT_USED_COUNT;
 }
 
 COcTexture::~COcTexture()
 {
-    glDeleteTextures(1,&_textureName);
+    _delTexture(_textureName);
 }
 
 void COcTexture::decrementUsedCount()
