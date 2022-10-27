@@ -1,6 +1,7 @@
 #include "simExtExternalRenderer.h"
 #include "simLib.h"
 #include "4X4Matrix.h"
+#include "MMatrix.h"
 #include <iostream>
 #include "openglWidget.h"
 #include "openglOffscreen.h"
@@ -244,18 +245,9 @@ void executeRenderCommands(bool windowed,int message,void* data)
             // The following instructions have the same effect as gluLookAt()
             m4.inverse();
             m4.rotateAroundY(3.14159265359f);
-            float m4_[4][4];
-            m4.copyTo(m4_);
-            #define SWAP(a,b) {temp=(a);(a)=(b);(b)=temp;}
-            float temp;
-            SWAP(m4_[0][1],m4_[1][0]);
-            SWAP(m4_[0][2],m4_[2][0]);
-            SWAP(m4_[0][3],m4_[3][0]);
-            SWAP(m4_[1][2],m4_[2][1]);
-            SWAP(m4_[1][3],m4_[3][1]);
-            SWAP(m4_[2][3],m4_[3][2]);
-            #undef SWAP
-            glLoadMatrixf((float*)m4_);
+            CMatrix m4_(m4);
+            m4_.transpose();
+            glLoadMatrixf(m4_.data.data());
 
             GLfloat ambient[4]={amb[0],amb[1],amb[2],1.0f};
             glLightModelfv(GL_LIGHT_MODEL_AMBIENT,ambient);
