@@ -76,7 +76,7 @@ void COcMesh::render(const C7Vector& tr,const float* colors,bool textured,float 
     glPushAttrib(GL_POLYGON_BIT);
 
     glTranslatef(tr.X(0),tr.X(1),tr.X(2));
-    C4Vector axis=tr.Q.getAngleAndAxisNoChecking();
+    C4Vector axis=tr.Q.getAngleAndAxis();
     glRotatef(axis(0)*radToDeg,axis(1),axis(2),axis(3));
 
 
