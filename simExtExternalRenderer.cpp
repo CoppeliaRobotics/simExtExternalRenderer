@@ -161,20 +161,20 @@ void executeRenderCommands(bool windowed,int message,void* data)
         resolutionX=((int*)valPtr[0])[0];
         resolutionY=((int*)valPtr[1])[0];
         float* backgroundColor=((float*)valPtr[2]);
-        float viewAngle=((float*)valPtr[8])[0];
+        float viewAngle=float(((double*)valPtr[8])[0]);
         perspectiveOperation=(((int*)valPtr[5])[0]==0);
-        nearClippingPlane=((float*)valPtr[9])[0];
-        farClippingPlane=((float*)valPtr[10])[0];
+        nearClippingPlane=float(((double*)valPtr[9])[0]);
+        farClippingPlane=float(((double*)valPtr[10])[0]);
         float* amb=(float*)valPtr[11];
-        C7Vector cameraTranformation(C4Vector((float*)valPtr[4]),C3Vector((float*)valPtr[3]));
+        C7Vector cameraTranformation(C4Vector((double*)valPtr[4]),C3Vector((double*)valPtr[3]));
         C4X4Matrix m4(cameraTranformation.getMatrix());
         float* fogBackgroundColor=(float*)valPtr[12];
         int fogType=((int*)valPtr[13])[0];
-        float fogStart=((float*)valPtr[14])[0];
-        float fogEnd=((float*)valPtr[15])[0];
-        float fogDensity=((float*)valPtr[16])[0];
+        float fogStart=float(((double*)valPtr[14])[0]);
+        float fogEnd=float(((double*)valPtr[15])[0]);
+        float fogDensity=float(((double*)valPtr[16])[0]);
         bool fogEnabled=((bool*)valPtr[17])[0];
-        float orthoViewSize=((float*)valPtr[18])[0];
+        float orthoViewSize=float(((double*)valPtr[18])[0]);
         visionSensorOrCameraId=((int*)valPtr[19])[0];
         int posX=0;
         int posY=0;
@@ -183,11 +183,11 @@ void executeRenderCommands(bool windowed,int message,void* data)
             posX=((int*)valPtr[20])[0];
             posY=((int*)valPtr[21])[0];
         }
-        float fogDistance=((float*)valPtr[22])[0]; // pov-ray
-        float fogTransp=((float*)valPtr[23])[0]; // pov-ray
+        float fogDistance=float(((double*)valPtr[22])[0]); // pov-ray
+        float fogTransp=float(((double*)valPtr[23])[0]); // pov-ray
         bool povFocalBlurEnabled=((bool*)valPtr[24])[0]; // pov-ray
-        float povFocalDistance=((float*)valPtr[25])[0]; // pov-ray
-        float povAperture=((float*)valPtr[26])[0]; // pov-ray
+        float povFocalDistance=float(((double*)valPtr[25])[0]); // pov-ray
+        float povAperture=float(((double*)valPtr[26])[0]); // pov-ray
         int povBlurSamples=((int*)valPtr[27])[0]; // pov-ray
 
         COpenglBase* oglItem=NULL;
@@ -244,10 +244,10 @@ void executeRenderCommands(bool windowed,int message,void* data)
 
             // The following instructions have the same effect as gluLookAt()
             m4.inverse();
-            m4.rotateAroundY(3.14159265359f);
+            m4.rotateAroundY(3.14159265359);
             CMatrix m4_(m4);
             m4_.transpose();
-            glLoadMatrixf(m4_.data.data());
+            glLoadMatrixd(m4_.data.data());
 
             GLfloat ambient[4]={amb[0],amb[1],amb[2],1.0f};
             glLightModelfv(GL_LIGHT_MODEL_AMBIENT,ambient);
@@ -272,15 +272,15 @@ void executeRenderCommands(bool windowed,int message,void* data)
         // Collect light data from CoppeliaSim (one light at a time):
         void** valPtr=(void**)data;
         int lightType=((int*)valPtr[0])[0];
-        float cutoffAngle=((float*)valPtr[1])[0];
+        float cutoffAngle=float(((double*)valPtr[1])[0]);
         int spotExponent=((int*)valPtr[2])[0];
         float* colors=((float*)valPtr[3]);
-        float constAttenuation=((float*)valPtr[4])[0];
-        float linAttenuation=((float*)valPtr[5])[0];
-        float quadAttenuation=((float*)valPtr[6])[0];
-        C7Vector lightTranformation(C4Vector((float*)valPtr[8]),C3Vector((float*)valPtr[7]));
-        float lightSize=((float*)valPtr[9])[0];
-        float FadeXDistance=((float*)valPtr[10])[0]; // Pov-ray
+        float constAttenuation=float(((double*)valPtr[4])[0]);
+        float linAttenuation=float(((double*)valPtr[5])[0]);
+        float quadAttenuation=float(((double*)valPtr[6])[0]);
+        C7Vector lightTranformation(C4Vector((double*)valPtr[8]),C3Vector((double*)valPtr[7]));
+        float lightSize=float(((double*)valPtr[9])[0]);
+        float FadeXDistance=float(((double*)valPtr[10])[0]); // Pov-ray
         bool lightIsVisible=((bool*)valPtr[11])[0];
         bool noShadow=((bool*)valPtr[12])[0]; // Pov-ray
 
@@ -345,12 +345,12 @@ void executeRenderCommands(bool windowed,int message,void* data)
         float* normals=((float*)valPtr[4]);
         int normalsCnt=((int*)valPtr[5])[0];
         float* colors=((float*)valPtr[8]);
-        C7Vector tr(C4Vector((float*)valPtr[7]),C3Vector((float*)valPtr[6]));
+        C7Vector tr(C4Vector((double*)valPtr[7]),C3Vector((double*)valPtr[6]));
         bool textured=((bool*)valPtr[18])[0];
-        float shadingAngle=((float*)valPtr[19])[0];
+        float shadingAngle=float(((double*)valPtr[19])[0]);
         unsigned int meshId=((unsigned int*)valPtr[20])[0];
         bool translucid=((bool*)valPtr[21])[0];
-        float opacityFactor=((float*)valPtr[22])[0];
+        float opacityFactor=float(((double*)valPtr[22])[0]);
         bool backfaceCulling=((bool*)valPtr[23])[0];
         int geomId=((int*)valPtr[24])[0];
         int texId=((int*)valPtr[25])[0];
@@ -410,7 +410,7 @@ void executeRenderCommands(bool windowed,int message,void* data)
         float* normals=((float*)valPtr[2]);
         float* colors=((float*)valPtr[3]);
         bool translucid=((bool*)valPtr[4])[0];
-        float opacityFactor=((float*)valPtr[5])[0];
+        float opacityFactor=float(((double*)valPtr[5])[0]);
         int povPatternType=((int*)valPtr[6])[0]; // pov-ray
 
         if (_simulationRunning||(!windowed))

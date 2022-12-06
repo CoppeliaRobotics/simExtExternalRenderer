@@ -1,6 +1,7 @@
 TARGET = simExtExternalRenderer
 TEMPLATE = lib
 DEFINES -= UNICODE
+DEFINES += SIM_MATH_DOUBLE
 CONFIG += shared plugin
 QT     += widgets opengl printsupport #printsupport required from MacOS, otherwise crashes strangely ('This CONFIG += shared
 
