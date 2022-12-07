@@ -41,6 +41,5 @@ coppeliasim_add_plugin(
     ${COPPELIASIM_ROOT_DIR}/programming/simMath/4Vector.cpp
     ${COPPELIASIM_ROOT_DIR}/programming/simMath/7Vector.cpp
 )
-target_compile_definitions(simExtExternalRenderer PRIVATE SIM_MATH_DOUBLE)
 target_include_directories(simExtExternalRenderer PRIVATE ${COPPELIASIM_ROOT_DIR}/programming/simMath)
 target_link_libraries(simExtExternalRenderer Qt5::Widgets Qt5::OpenGL Qt5::PrintSupport OpenGL::GL)
